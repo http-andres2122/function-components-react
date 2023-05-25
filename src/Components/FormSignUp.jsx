@@ -3,9 +3,15 @@ import TextField from '@mui/material/TextField';
 import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { useState, useEffect } from 'react';
 
 
 function FormSignUp () {
+    const [name, setName] = useState('')
+    useEffect(() => {
+        console.log("name cmabio: ", name)
+    }, [name])
+
     return <form>
         <TextField 
             id="name" 
@@ -14,6 +20,11 @@ function FormSignUp () {
             type="text" 
             fullWidth
             margin='normal'
+            onChange={(e)=>{
+                console.log(e.target.value)
+                setName(e.target.value)
+            }}
+            value={name}
         />
         <TextField 
             id="lastname" 
