@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 
 function FormSignUp (props) {
@@ -13,6 +13,21 @@ function FormSignUp (props) {
     const [email, setEmail] = useState('')
     const [prom, setProm] = useState(true)
     const [nov, setNov] = useState(true)
+    const [errors, setErrors] = useState({
+        name: {
+            error: false,
+            message: 
+                "Debern ser al menos 3 caracteres",
+        },
+    })
+
+    function validarNombre(nombre){
+        if(nombre.length >= 3){
+            return { name: { error: false, message: "" } }
+        }else{
+            return { name: { error: true, message: "Debern ser al menos 3 caracteres" }}
+        }
+    }
 
     return <form onSubmit={(e)=>{
         e.preventDefault()
@@ -30,6 +45,11 @@ function FormSignUp (props) {
                 setName(e.target.value)
             }}
             value={name}
+            error={ errors.name.error }
+            helperText={ errors.name.error ? errors.name.message : "" }
+            onBlur={(e) => {
+                setErrors(validarNombre(e.target.value))
+            }}
         />
         <TextField 
             id="lastname" 
