@@ -6,13 +6,18 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { useState, useEffect } from 'react';
 
 
-function FormSignUp () {
+function FormSignUp (props) {
+    const {handleSubmit} = props
     const [name, setName] = useState('')
-    useEffect(() => {
-        console.log("name cmabio: ", name)
-    }, [name])
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [prom, setProm] = useState(true)
+    const [nov, setNov] = useState(true)
 
-    return <form>
+    return <form onSubmit={(e)=>{
+        e.preventDefault()
+        handleSubmit({name, lastName, email, prom, nov})
+    }} >
         <TextField 
             id="name" 
             label="Nombre" 
@@ -33,6 +38,11 @@ function FormSignUp () {
             type="text"
             fullWidth
             margin='normal'
+            value={lastName}
+            onChange={(e)=>{
+                console.log(e.target.value)
+                setLastName(e.target.value)
+            }}
         />
         <TextField 
             id="email" 
@@ -41,12 +51,27 @@ function FormSignUp () {
             type="email"
             fullWidth
             margin='normal'
+            value={email}
+            onChange={(e)=>{
+                console.log(e.target.value)
+                setEmail(e.target.value)
+            }}
         />
         <FormGroup>
-            <FormControlLabel control={ <Switch defaultChecked /> } label="Promociones" />
-            <FormControlLabel control={ <Switch defaultChecked /> } label="Novedades" />
+            <FormControlLabel 
+                control={ 
+                    <Switch checked={ prom } onChange={(e)=> setProm(e.target.checked)}/> 
+                } 
+                label="Promociones" 
+                />
+            <FormControlLabel 
+                control={ 
+                    <Switch checked={nov} onChange={(e)=> setNov(e.target.checked)} /> 
+                    } 
+                    label="Novedades" 
+                    />
         </FormGroup>
-        <Button variant='contained'>Registrarse</Button>
+        <Button variant='contained' type='submit' >Registrarse</Button>
     </form>
 }
 
